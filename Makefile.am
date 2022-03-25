@@ -1,2 +1,2 @@
-SUBDIRS = src libkosdb libkoslog
+SUBDIRS = libkosdb libkoslog src
 

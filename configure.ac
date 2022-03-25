@@ -3,6 +3,8 @@ AC_INIT([koschei], [0.1.0], [95-st-capital@gmail.com])
 AC_CONFIG_SRCDIR([src/main.c])
 AC_CONFIG_HEADERS([config.h:config.h.in])
 AM_INIT_AUTOMAKE([subdir-objects])
+LT_PREREQ([2.4.6])
+LT_INIT([dlopen])
 
 # Checks for programs
 AC_PROG_CC
