@@ -4,7 +4,7 @@ AC_CONFIG_SRCDIR([src/main.c])
 AC_CONFIG_HEADERS([config.h:config.h.in])
 AM_INIT_AUTOMAKE([subdir-objects])
 LT_PREREQ([2.4.6])
-LT_INIT([dlopen])
+LT_INIT
 
 # Checks for programs
 AC_PROG_CC
@@ -12,19 +12,20 @@ AC_PROG_INSTALL
 
 # Checks for libraries
 
-# Checks for header files
-AC_CHECK_HEADERS([stdlib.h], [], [have_stdio=no])
-if test "x${have_stdio}" = xno; then
-  AC_MSG_FAILURE([stdio.h is required to build koschei.])
-fi
+header_checks="stdio.h stdlib.h sys/socket.h sys/types.h netinet/in.h stdbool.h unistd.h"
+for value in $header_checks; do
+  AC_CHECK_HEADERS([${value}], [htest=yes], [htest=no])
+  if test "x${htest}" = xno; then
+    AC_MSG_FAILURE([Header: ${value} is required to build koschei.])
+  fi
+done
 
 # Checks for typedefs, structures, and compiler characteristics
 
 # Checks for library functions
 
-# TODO: Make libkosdb and libkoslog user optional
+# TODO: User options: server/client functionality
 AC_CONFIG_FILES([Makefile
-                 libkosdb/Makefile
                  libkoslog/Makefile
                  src/Makefile])
 AC_OUTPUT
