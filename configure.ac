@@ -4,7 +4,7 @@ AC_CONFIG_SRCDIR([src/main.c])
 AC_CONFIG_HEADERS([config.h:config.h.in])
 AM_INIT_AUTOMAKE([subdir-objects])
 LT_PREREQ([2.4.6])
-LT_INIT
+LT_INIT([dlopen])
 
 # Checks for programs
 AC_PROG_CC
@@ -12,7 +12,7 @@ AC_PROG_INSTALL
 
 # Checks for libraries
 
-header_checks="stdio.h stdlib.h sys/socket.h sys/types.h netinet/in.h stdbool.h unistd.h"
+header_checks="stdio.h stdlib.h sys/socket.h sys/types.h netinet/in.h stdbool.h unistd.h ltdl.h"
 for value in $header_checks; do
   AC_CHECK_HEADERS([${value}], [htest=yes], [htest=no])
   if test "x${htest}" = xno; then
@@ -23,10 +23,14 @@ done
 # Checks for typedefs, structures, and compiler characteristics
 
 # Checks for library functions
+AC_SEARCH_LIBS([lt_dlopen], [ltdl])
+
 
 # TODO: User options: server/client functionality
 AC_CONFIG_FILES([Makefile
                  libkoslog/Makefile
-                 src/Makefile])
+                 src/Makefile
+                 src/modules/client/Makefile
+                 src/modules/server/Makefile])
 AC_OUTPUT
 
